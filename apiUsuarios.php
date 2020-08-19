@@ -9,21 +9,28 @@ $postjson = json_decode(file_get_contents('php://input'), true);
 
 if($postjson['requisicao'] == 'listar'){
 
+    if ($postjson['textoBuscar'] == ''){
 
-  $query = mysqli_query($mysqli, "select * from usuarios order by id desc limit $postjson[start], $postjson[limit]");
+    $query = mysqli_query($mysqli, "select * from usuarios order by id desc limit $postjson[start], $postjson[limit]");
 
+} else {
+    $query = mysqli_query($mysqli, "select * from usuarios
+    where nome = '$postjson[textoBuscar]' or usuario = '$postjson[textoBuscar]'
+    order by id desc limit $postjson[start], $postjson[limit]");
 
- 	while($row = mysqli_fetch_array($query)){ 
- 		$dados[] = array(
- 			'id' => $row['id'], 
- 			'nome' => $row['nome'],
-			'usuario' => $row['usuario'],
-      'senha' => $row['senha'],
+}
+
+    while($row = mysqli_fetch_array($query)){ 
+        $dados[] = array(
+            'id' => $row['id'], 
+            'nome' => $row['nome'],
+            'usuario' => $row['usuario'],
+            'senha' => $row['senha'],
             
         
- 		);
+        );
 
- }
+    }
 
         if($query){
                 $result = json_encode(array('success'=>true, 'result'=>$dados));
@@ -40,16 +47,48 @@ if($postjson['requisicao'] == 'listar'){
     $query = mysqli_query($mysqli, "INSERT INTO usuarios SET nome = '$postjson[nome]', usuario = '$postjson[usuario]', senha = '$postjson[senha]' ");
 
     $id = mysqli_insert_id($mysqli);
-     
+
 
     if($query){
     $result = json_encode(array('success'=>true, 'id'=>$id));
 
-  }else{
-    $result = json_encode(array('success'=>false));
+    }else{
+        $result = json_encode(array('success'=>false));
 
-  }
-   echo $result;
-  
+    }
+    echo $result;
+    
 
+} else if($postjson['requisicao'] == 'editar'){
+
+    $query = mysqli_query($mysqli, "UPDATE usuarios SET nome = '$postjson[nome]', 
+    usuario = '$postjson[usuario]', senha = '$postjson[senha]' where id = '$postjson[id]' ");
+
+    $id = mysqli_insert_id($mysqli);
+
+
+    if($query){
+    $result = json_encode(array('success'=>true, 'id'=>$id));
+
+    }else{
+        $result = json_encode(array('success'=>false));
+
+    }
+    echo $result;
+
+} else if($postjson['requisicao'] == 'excluir'){
+
+    $query = mysqli_query($mysqli, "DELETE from usuarios where id = '$postjson[id]' ");
+
+    $id = mysqli_insert_id($mysqli);
+
+
+    if($query){
+    $result = json_encode(array('success'=>true, 'id'=>$id));
+
+    }else{
+        $result = json_encode(array('success'=>false));
+
+    }
+    echo $result;
 }
