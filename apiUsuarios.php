@@ -14,8 +14,9 @@ if($postjson['requisicao'] == 'listar'){
     $query = mysqli_query($mysqli, "select * from usuarios order by id desc limit $postjson[start], $postjson[limit]");
 
 } else {
+    $busca = $postjson['textoBuscar'] . '%';
     $query = mysqli_query($mysqli, "select * from usuarios
-    where nome = '$postjson[textoBuscar]' or usuario = '$postjson[textoBuscar]'
+    where nome LIKE '$busca' or usuario LIKE '$busca'
     order by id desc limit $postjson[start], $postjson[limit]");
 
 }
@@ -91,4 +92,41 @@ if($postjson['requisicao'] == 'listar'){
 
     }
     echo $result;
+
+// } else if($postjson['requisicao'] == 'login'){
+
+//   $query = mysqli_query($mysqli, "SELECT * usuarios where usuario = '$postjson[usuario]' and senha = '$postjson[senha]' ");
+
+//   $result = mysqli_num_rows($query);
+
+
+//   if($result > 0){
+//     $result = json_encode(array('success'=>true));
+
+//   }else{
+//     $result = json_encode(array('success'=>false));
+
+//   }
+//   echo $result;
+  
+
+// }
+
+}else if($postjson['requisicao'] == 'login'){
+
+  $query = mysqli_query($mysqli, "SELECT * from usuarios where usuario = '$postjson[usuario]' and senha = '$postjson[senha]' ");
+
+$result = mysqli_num_rows($query);
+
+
+
+if($result > 0){
+$result = json_encode(array('success'=>true));
+
+}else{
+$result = json_encode(array('success'=>false));
+
 }
+echo $result;
+
+ }
