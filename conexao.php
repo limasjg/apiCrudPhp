@@ -13,10 +13,17 @@ date_default_timezone_set('America/Sao_Paulo');
 
 //CONEXAO LOCAL
 
-define('BD', 'apiangular');
+// define('BD', 'apiangular');
+// define('USER', 'root');
+// define('SENHA', '');
+// define('HOST', 'localhost');
+
+//CONEXAO LOCAL MYSQL
+
+define('BD', 'riooffsite');
 define('USER', 'root');
-define('SENHA', '');
-define('HOST', 'localhost');
+define('SENHA', 'asd@938');
+define('HOST', '127.0.0.1');
 
 
 

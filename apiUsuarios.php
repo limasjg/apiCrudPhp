@@ -25,7 +25,7 @@ if($postjson['requisicao'] == 'listar'){
         $dados[] = array(
             'id' => $row['id'], 
             'nome' => $row['nome'],
-            'usuario' => $row['usuario'],
+            'email' => $row['email'],
             'senha' => $row['senha'],
             
         
@@ -92,39 +92,21 @@ if($postjson['requisicao'] == 'listar'){
 
     }
     echo $result;
-
-// } else if($postjson['requisicao'] == 'login'){
-
-//   $query = mysqli_query($mysqli, "SELECT * usuarios where usuario = '$postjson[usuario]' and senha = '$postjson[senha]' ");
-
-//   $result = mysqli_num_rows($query);
-
-
-//   if($result > 0){
-//     $result = json_encode(array('success'=>true));
-
-//   }else{
-//     $result = json_encode(array('success'=>false));
-
-//   }
-//   echo $result;
-  
-
-// }
+    
 
 }else if($postjson['requisicao'] == 'login'){
 
-  $query = mysqli_query($mysqli, "SELECT * from usuarios where usuario = '$postjson[usuario]' and senha = '$postjson[senha]' ");
+    $query = mysqli_query($mysqli, "SELECT * from usuarios where email = '$postjson[email]' and senha = '$postjson[senha]' ");
 
-$result = mysqli_num_rows($query);
+    $result = mysqli_num_rows($query);
 
 
 
 if($result > 0){
-$result = json_encode(array('success'=>true));
+    $result = json_encode(array('success'=>true));
 
 }else{
-$result = json_encode(array('success'=>false));
+    $result = json_encode(array('success'=>false));
 
 }
 echo $result;
